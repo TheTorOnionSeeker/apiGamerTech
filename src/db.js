@@ -30,7 +30,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Product } = sequelize.models;
+const { Product, User } = sequelize.models;
 // Aca vendrian las relaciones
 
 // Un usuario tiene unicamente un role y una rol le puede corresponder de 0 a muchos usuarios
