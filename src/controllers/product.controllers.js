@@ -62,7 +62,7 @@ async function createProduct(req, res) {
 async function modifyProduct(req, res) {
   const { id, name, description, price, imageUrl } = req.body;
   try {
-    const product = Product.update(
+    const product = await Product.update(
       {
         name: name,
         description: description,
