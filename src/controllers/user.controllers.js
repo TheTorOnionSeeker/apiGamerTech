@@ -15,7 +15,7 @@ async function getAllUsers(req, res) {
 async function getUserById(req, res) {
   const { id } = req.params;
   try {
-    const user = await User.FindOne({
+    const user = await User.FindAll({
       where: {
         id: id,
       },
@@ -31,7 +31,7 @@ async function getUserById(req, res) {
 async function getUserByName(req, res) {
   const { name } = req.params;
   try {
-    const user = await User.FindOne({
+    const user = await User.FindAll({
       where: {
         name: name,
       },
@@ -53,13 +53,11 @@ async function createUser(req, res) {
       password: password,
     });
     if (!new_user) throw new Error("No se pudo crear el usuario!");
-    const user= await User.FindOne({
-        where: {
-            id: new_user.id,
-          },
-          attributes: ["id", "name", "email"],
-    })
-    res.status(201).json({ user: user, msg: "Usuario creado!" });
+    res.status(201).json({ user:{
+        id:new_user.id,
+        name:new_user.name,
+        email:new_user.email},
+    msg: "Usuario creado!" });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
