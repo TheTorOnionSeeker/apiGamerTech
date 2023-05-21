@@ -3,11 +3,12 @@ const { User } = require("../db.js");
 async function getAllUsers(req, res) {
   try {
     const DBusers = await User.findAll({
-      attributes: ["id", "name"],
+      attributes: ["id", "name", "email"],
     });
+    if (DBusers === null) throw new Error("Usuarios no encontrados!")
     res.status(200).json(DBusers);
   } catch (error) {
-    res.status(404).json("Products not found!");
+    res.status(404).json({ error: error.message });
   }
 }
 
@@ -18,9 +19,9 @@ async function getUserById(req, res) {
       where: {
         id: id,
       },
-      attributes: ["id", "name"],
+      attributes: ["id", "name", "email"],
     });
-    if (user === null) throw new Error("User not found!");
+    if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -34,9 +35,9 @@ async function getUserByName(req, res) {
       where: {
         name: name,
       },
-      attributes: ["id", "name"],
+      attributes: ["id", "name", "email"],
     });
-    if (user === null) throw new Error("User not found!");
+    if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -44,32 +45,59 @@ async function getUserByName(req, res) {
 }
 
 async function createUser(req, res) {
-  const { name, password } = req.body;
+  const { name, email, password } = req.body;
   try {
     const new_user = await User.create({
       name: name,
-      password: password
+      email: email,
+      password: password,
     });
-    if (!new_user) throw new Error("No se pudo crear el usuario");
-    res.status(201).json({ User: new_user, msg: "User created" });
+    if (!new_user) throw new Error("No se pudo crear el usuario!");
+    const user= await User.FindOne({
+        where: {
+            id: new_user.id,
+          },
+          attributes: ["id", "name", "email"],
+    })
+    res.status(201).json({ user: user, msg: "Usuario creado!" });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
+async function verifyUser(req, res) {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        email: email,
+        password: password,
+      },
+      attributes: ["id", "name", "email"],
+    });
+    if (!user) throw new Error("Usuario no encontrado!");
+
+    res.status(201).json({ user: user, msg: "Usuario encontrado!" });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
 }
 
 async function modifyUser(req, res) {
-  const { id, name, password } = req.body;
+  const { id, name, email, password } = req.body;
   try {
     const user = await User.update(
       {
         name: name,
-        password: password
+        email: email,
+        password: password,
       },
       { where: { id: id } }
     );
-    res.status(200).json({ User: user, msg: "User updated" })
+    res.status(200).json({ User: user, msg: "Usuario modificado!" });
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 }
 
@@ -78,5 +106,6 @@ module.exports = {
   getUserById,
   getUserByName,
   createUser,
+  verifyUser,
   modifyUser
 };
