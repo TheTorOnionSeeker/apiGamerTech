@@ -15,7 +15,7 @@ async function getAllUsers(req, res) {
 async function getUserById(req, res) {
   const { id } = req.params;
   try {
-    const user = await User.FindOne({
+    const user = await User.FindAll({
       where: {
         id: id,
       },
@@ -31,7 +31,7 @@ async function getUserById(req, res) {
 async function getUserByName(req, res) {
   const { name } = req.params;
   try {
-    const user = await User.FindOne({
+    const user = await User.FindAll({
       where: {
         name: name,
       },
