@@ -14,7 +14,7 @@ async function getAllProducts(req, res) {
 async function getProductById(req, res) {
   const { id } = req.params;
   try {
-    const product = await Product.FindAll({
+    const product = await Product.findOne({
       where: {
         id: id,
       },
@@ -30,7 +30,7 @@ async function getProductById(req, res) {
 async function getProductByName(req, res) {
   const { name } = req.params;
   try {
-    const product = await Product.FindAll({
+    const product = await Product.findOne({
       where: {
         name: name,
       },
