@@ -4,7 +4,7 @@ const {getAllProducts, getProductById, getProductByName, createProduct, modifyPr
 
 router.get('/',getAllProducts)
 router.get('/:id',getProductById)
-router.get('/:name', getProductByName)
+router.get('name/:name', getProductByName)
 router.post('/new',createProduct)
 router.post('/modifyproduct',modifyProduct)
 
