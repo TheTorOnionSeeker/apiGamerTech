@@ -28,7 +28,7 @@ async function getProductById(req, res) {
 }
 
 async function getProductByName(req, res) {
-  const { name } = req.params;
+  const { name } = req.query;
   try {
     const product = await Product.findOne({
       where: {
