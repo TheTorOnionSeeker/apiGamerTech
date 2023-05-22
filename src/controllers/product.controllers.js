@@ -30,7 +30,7 @@ async function getProductById(req, res) {
 async function getProductByName(req, res) {
   const { name } = req.params;
   try {
-    const product = await Product.findAll({
+    const product = await Product.findOne({
       where: {
         name: name,
       },
