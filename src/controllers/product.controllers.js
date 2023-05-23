@@ -43,7 +43,6 @@ async function getProductById(req, res) {
 
 async function getProductByName(req, res) {
   const { name_product } = req.query;
-  res.status(200).json(typeof name_product);
   try {
     if (typeof name_product != 'string') throw new Error("Ingresar un dato tipo string");
     const product = await Product.findAll({
