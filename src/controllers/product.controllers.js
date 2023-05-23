@@ -8,9 +8,7 @@ function ordenarObjetos(propiedad, sentido, funcionOrdenamiento) {
       } : function(objeto) {
           return objeto[propiedad];
       }
-  
       sentido = !sentido ? 1 : -1;
-
       return function (objeto1, objeto2) {
           return objeto1 = llaveOrdenamiento(objeto1), objeto2 = llaveOrdenamiento(objeto2), sentido * ((objeto1 > objeto2) - (objeto2 > objeto1));
       }
