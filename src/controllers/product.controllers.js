@@ -42,12 +42,12 @@ async function getProductById(req, res) {
 }
 
 async function getProductByName(req, res) {
-  const { name } = req.query;
+  const { name_p } = req.query;
   try {
-    if (typeof name != 'string') throw new Error("Ingresar un dato tipo string");
+    if (typeof name_p != 'string') throw new Error("Ingresar un dato tipo string");
     const product = await Product.findAll({
       attributes: ["id", "name", "description", "price", "imageUrl"],
-      where: { name: { [Op.iLike] : `%${name}%`}},
+      where: { name: { [Op.iLike] : `%${name_p}%`}},
     });
     if (product === null) throw new Error("Product not found!");
     res.status(200).json(product);
