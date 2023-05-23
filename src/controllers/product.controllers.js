@@ -1,4 +1,18 @@
 const { Product } = require("../db.js");
+const { Op } = require('sequelize');
+
+function ordenarObjetos(propiedad, sentido, funcionOrdenamiento) {
+  let llaveOrdenamiento = funcionOrdenamiento ? 
+      function(objeto) {
+          return funcionOrdenamiento(objeto[propiedad]);
+      } : function(objeto) {
+          return objeto[propiedad];
+      }
+      sentido = !sentido ? 1 : -1;
+      return function (objeto1, objeto2) {
+          return objeto1 = llaveOrdenamiento(objeto1), objeto2 = llaveOrdenamiento(objeto2), sentido * ((objeto1 > objeto2) - (objeto2 > objeto1));
+      }
+}
 
 async function getAllProducts(req, res) {
   try {
@@ -30,11 +44,9 @@ async function getProductById(req, res) {
 async function getProductByName(req, res) {
   const { name } = req.query;
   try {
-    const product = await Product.findOne({
-      where: {
-        name: name,
-      },
+    const product = await Product.findAll({
       attributes: ["id", "name", "description", "price", "imageUrl"],
+      where: { name: { [Op.iLike] : `%${name}%`}},
     });
     if (product === null) throw new Error("Product not found!");
     res.status(200).json(product);
@@ -77,10 +89,36 @@ async function modifyProduct(req, res) {
   }
 }
 
+const sortProducts = async (req, res) =>{
+  const {array, sort, type} = req.body;
+  try {
+      if(array.length === 0) throw new Error('Arreglo vacio');
+      const valor = sort === 'ascendente' ? false : true;
+      if(type === ''){
+          if(sort === 'ascendente')
+              return res.status(200).json(array.sort(
+                  (a,b) => a.id - b.id
+              ));
+          else if(sort === 'descendente')
+              return res.status(200).json(array.sort(
+                  (a,b) => b.id - a.id
+              ));
+          else
+              throw new Error('Error en el parametro sort')
+      }else{
+          const response = array.sort(ordenarObjetos(type, valor));
+          return res.status(200).json(response);
+      }
+  } catch (error) {
+      res.status(404).json({error : error.message})
+  }
+}
+
 module.exports = {
   getAllProducts,
   getProductById,
   getProductByName,
   createProduct,
-  modifyProduct
+  modifyProduct,
+  sortProducts
 };
