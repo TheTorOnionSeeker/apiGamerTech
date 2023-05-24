@@ -2,7 +2,7 @@ const { Router }=require('express');
 const router=Router();
 const {getAllProducts, getProductById, getProductByName, createProduct, modifyProduct, sortProducts}=require('../controllers/product.controllers.js');
 
-router.get('',getProductByName)
+router.get('/name/:name_product',getProductByName)
 router.get('',getAllProducts)
 router.get('/:id',getProductById)
 router.post('/sort',sortProducts)
