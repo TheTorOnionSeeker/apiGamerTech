@@ -15,8 +15,8 @@ function ordenarObjetos(propiedad, sentido, funcionOrdenamiento) {
 }
 
 async function getProductByName(req, res) {
-  const { name_product } = req.query;
-  res.status(200).json({name_product: name_product});
+  const { name } = req.query;
+  res.status(200).json({name_product: name});
   /*try {
     if (typeof name_product != 'string') throw new Error("Ingresar un dato tipo string");
     const product = await Product.findAll({
@@ -117,9 +117,9 @@ const sortProducts = async (req, res) =>{
 }
 
 module.exports = {
+  getProductByName,
   getAllProducts,
   getProductById,
-  getProductByName,
   createProduct,
   modifyProduct,
   sortProducts
