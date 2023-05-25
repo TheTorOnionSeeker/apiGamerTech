@@ -45,8 +45,10 @@ async function getProductByName(req, res) {
   const { name } = req.query;
   try {
     const product = await Product.findAll({
-      attributes: ["id", "name", "description", "price", "imageUrl"],
-      where: { name: { [Op.iLike] : `%${name}%`}},
+      where: {name:name},
+      attributes: ["id", "name", "description", "price", "imageUrl"]
+      //attributes: ["id", "name", "description", "price", "imageUrl", "isActive", "stock"]
+      //where: { name: { [Op.iLike] : `%${name}%`}},
     });
     if (product === null) throw new Error("Product not found!");
     res.status(200).json(product);
