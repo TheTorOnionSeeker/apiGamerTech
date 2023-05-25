@@ -14,7 +14,7 @@ function ordenarObjetos(propiedad, sentido, funcionOrdenamiento) {
       }
 }
 
-async function getProductByName(req, res) {
+/* async function getProductByName(req, res) {
   const { name_product } = req.query;
   try {
     if (typeof name_product != 'string') throw new Error("Ingresar un dato tipo string");
@@ -27,7 +27,7 @@ async function getProductByName(req, res) {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-}
+} */
 
 async function getAllProducts(req, res) {
   try {
