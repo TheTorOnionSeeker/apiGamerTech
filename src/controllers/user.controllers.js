@@ -54,13 +54,10 @@ async function createUser(req, res) {
       isActive: isActive
     });
     if (!new_user) throw new Error("No se pudo crear el usuario!");
-    res.status(201).json({ user:{
-        id:new_user.id,
-        name:new_user.name,
-        email:new_user.email},
+    res.status(201).json({ user:new_user,
     msg: "Usuario creado!" });
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 }
 
@@ -77,7 +74,7 @@ async function verifyUser(req, res) {
     });
     if (!user) throw new Error("Usuario no encontrado!");
 
-    res.status(201).json({ user: user, msg: "Usuario encontrado!" });
+    res.status(200).json({ user: user, msg: "Usuario encontrado!" });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
