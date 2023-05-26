@@ -20,16 +20,16 @@ async function createCart(req, res) {
     }
 }
 
-async function getCartById(req, res) {
+async function getCartByUserId(req, res) {
     const { id } = req.params;
     try {
       const cart = await Cart.findOne({
         where: {
-          id: id,
+          userId: id,
         },
         attributes: ["productsId","userId"],
       });
-      if (cart === null) throw new Error("Cart not found!");
+      if (cart === null) throw new Error("Carrito no encontrado!");
       res.status(200).json(cart);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -38,5 +38,5 @@ async function getCartById(req, res) {
 
 module.exports = {
     createCart,
-    getCartById
+    getCartByUserId
   };

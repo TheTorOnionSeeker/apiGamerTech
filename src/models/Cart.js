@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
     },
     productsId: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false,
+        allowNull: true,
         defaultValue: []
     }
   });
