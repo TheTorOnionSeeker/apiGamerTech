@@ -3,7 +3,7 @@ const { User } = require("../db.js");
 async function getAllUsers(req, res) {
   try {
     const DBusers = await User.findAll({
-      attributes: ["id", "name", "email"],
+      attributes: ["id", "name", "email", "isActive"],
     });
     if (DBusers === null) throw new Error("Usuarios no encontrados!")
     res.status(200).json(DBusers);
@@ -19,7 +19,7 @@ async function getUserById(req, res) {
       where: {
         id: id,
       },
-      attributes: ["id", "name", "email"],
+      attributes: ["id", "name", "email", "isActive"],
     });
     if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
@@ -35,7 +35,7 @@ async function getUserByName(req, res) {
       where: {
         name: name,
       },
-      attributes: ["id", "name", "email"],
+      attributes: ["id", "name", "email", "isActive"],
     });
     if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
@@ -45,12 +45,13 @@ async function getUserByName(req, res) {
 }
 
 async function createUser(req, res) {
-  const { name, email, password } = req.body;
+  const { name, email, password, isActive } = req.body;
   try {
     const new_user = await User.create({
       name: name,
       email: email,
       password: password,
+      isActive: isActive
     });
     if (!new_user) throw new Error("No se pudo crear el usuario!");
     res.status(201).json({ user:{
@@ -72,7 +73,7 @@ async function verifyUser(req, res) {
         email: email,
         password: password,
       },
-      attributes: ["id", "name", "email"],
+      attributes: ["id", "name", "email", "isActive"],
     });
     if (!user) throw new Error("Usuario no encontrado!");
 
@@ -83,13 +84,14 @@ async function verifyUser(req, res) {
 }
 
 async function modifyUser(req, res) {
-  const { id, name, email, password } = req.body;
+  const { id, name, email, password, isActive } = req.body;
   try {
     const user = await User.update(
       {
         name: name,
         email: email,
         password: password,
+        isActive: isActive
       },
       { where: { id: id } }
     );
