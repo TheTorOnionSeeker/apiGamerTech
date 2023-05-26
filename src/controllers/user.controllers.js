@@ -70,7 +70,7 @@ async function verifyUser(req, res) {
         email: email,
         password: password,
       },
-      attributes: ["id", "name", "email", "isActive"],
+      attributes: ["id", "name", "email", "isActive", "updatedAt"],
     });
     if (!user) throw new Error("Usuario no encontrado!");
 
