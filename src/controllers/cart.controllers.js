@@ -36,8 +36,7 @@ async function getCartByUserId(req, res) {
 }
 
 async function addProductToCart(req, res) {
-  let { userId } = req.params;
-  let { productId } = req.query;
+  let { userId, productId } = req.body;
   try {
     const cart = await Cart.findOne({
       where: {
@@ -45,8 +44,17 @@ async function addProductToCart(req, res) {
       },
     });
     if (cart === null) throw new Error("Carrito no encontrado!");
-    cart.productsId.push(productId);
-    res.status(200).json(cart);
+    const updatedCart = await Cart.update(
+      {
+        productsId: [...cart.productsId, productId] // Agrega el nuevo productId al array
+      },
+      {
+        where: {
+          userId: userId
+        }
+      }
+    );
+    res.status(200).json(updatedCart);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
