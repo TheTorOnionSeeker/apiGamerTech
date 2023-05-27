@@ -44,7 +44,8 @@ async function addProductToCart(req, res) {
       },
     });
     if (cart === null) throw new Error("Carrito no encontrado!");
-    const updatedCart = await Cart.update(
+    cart.productsId.push(productId)
+    /* const updatedCart = await Cart.update(
       {
         productsId: [...cart.productsId, productId] // Agrega el nuevo productId al array
       },
@@ -53,8 +54,8 @@ async function addProductToCart(req, res) {
           userId: userId
         }
       }
-    );
-    res.status(200).json(updatedCart);
+    ); */
+    res.status(200).json(cart);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
