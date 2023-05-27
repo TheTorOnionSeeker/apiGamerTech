@@ -5,7 +5,7 @@ const { createCart, getCartByUserId, addProductToCart }=require('../controllers/
 /* router.get('/deleteCart',deleteCart)
 router.post('/modifyCart',modifyCart) */
 router.post('/new',createCart)
-router.post('/addproducttocart/:userId',addProductToCart)
+router.post('/addproducttocart',addProductToCart)
 router.get('/:id',getCartByUserId)
 
 module.exports = router;
