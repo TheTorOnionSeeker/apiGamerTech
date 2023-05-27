@@ -3,10 +3,9 @@ const { Cart, User } = require("../db.js");
 async function createCart(req, res) {
   const { productId, userId } = req.body;
   try {
-    const new_cart = await Cart.create({
-      productsId: productId,
-    });
+    const new_cart = await Cart.create();
     if (!new_cart) throw new Error("No se pudo crear el carrito");
+    new_cart.productsId.push(productId);
     const user = await User.findOne({
       where: {
         id: userId,
@@ -36,7 +35,7 @@ async function getCartByUserId(req, res) {
   }
 }
 
-async function addProductToCart(req,res) {
+async function addProductToCart(req, res) {
   let { productId, userId } = req.body;
   try {
     const cart = await Cart.findOne({
@@ -56,5 +55,5 @@ async function addProductToCart(req,res) {
 module.exports = {
   createCart,
   getCartByUserId,
-  addProductToCart
+  addProductToCart,
 };
