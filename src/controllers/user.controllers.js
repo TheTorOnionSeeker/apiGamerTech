@@ -5,7 +5,7 @@ async function getAllUsers(req, res) {
     const DBusers = await User.findAll({
       attributes: ["id", "name", "email", "isActive"],
     });
-    if (DBusers === null) throw new Error("Usuarios no encontrados!")
+    if (DBusers === null) throw new Error("Usuarios no encontrados!");
     res.status(200).json(DBusers);
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -51,11 +51,10 @@ async function createUser(req, res) {
       name: name,
       email: email,
       password: password,
-      isActive: isActive
+      isActive: isActive,
     });
     if (!new_user) throw new Error("No se pudo crear el usuario!");
-    res.status(201).json({ user:new_user,
-    msg: "Usuario creado!" });
+    res.status(201).json({ user: new_user, msg: "Usuario creado!" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -70,11 +69,17 @@ async function verifyUser(req, res) {
         email: email,
         password: password,
       },
-      attributes: ["id", "name", "email", "isActive", "updatedAt"],
+      attributes: ["id", "name", "email", "isActive"],
     });
     if (!user) throw new Error("Usuario no encontrado!");
-
-    res.status(200).json({ user: user, msg: "Usuario encontrado!" });
+    let marcaTiempoLogin = Date.now();
+    res
+      .status(200)
+      .json({
+        user: user,
+        msg: "Usuario encontrado!",
+        marcaTiempoLogin: marcaTiempoLogin,
+      });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -88,7 +93,7 @@ async function modifyUser(req, res) {
         name: name,
         email: email,
         password: password,
-        isActive: isActive
+        isActive: isActive,
       },
       { where: { id: id } }
     );
@@ -104,5 +109,5 @@ module.exports = {
   getUserByName,
   createUser,
   verifyUser,
-  modifyUser
+  modifyUser,
 };
