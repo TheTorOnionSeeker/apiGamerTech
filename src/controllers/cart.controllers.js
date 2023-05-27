@@ -37,8 +37,6 @@ async function getCartByUserId(req, res) {
 
 async function addProductToCart(req, res) {
   let { productId, userId } = req.body;
-  parseInt(productId);
-  parseInt(userId);
   try {
     const cart = await Cart.findOne({
       where: {
