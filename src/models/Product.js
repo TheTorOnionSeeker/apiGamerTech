@@ -27,6 +27,6 @@ module.exports = (sequelize) => {
     stock: {
       type: DataTypes.INTEGER,
       allowNull: true,
-    }
+    },
   });
 };

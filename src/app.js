@@ -4,7 +4,9 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const routes = require("./routes/index.js");
-const { User } = require("./db.js");
+const mercadopago = require("mercadopago");
+require("dotenv").config();
+const { ACCESS_TOKEN } = process.env;
 
 /* const stripe = require("stripe")(
   "sk_test_51Mwy6OIafxu5FBCfUflrOLZaYawloNP6Js3S76LYjloojg9K5qjMIA51Z9lowfW7IZdOcCTK9DRgvZEwtJW5Q9nY00Zca3Y2fw"
@@ -15,6 +17,9 @@ require("./db.js");
 const server = express();
 
 server.name = "API";
+mercadopago.configure({
+  access_token: `${ACCESS_TOKEN}`,
+});
 
 //server.use(express.static("public"));
 
@@ -51,6 +56,8 @@ server.use(bodyParser.json({ limit: "50mb" }));
 server.use(cookieParser());
 server.use(morgan("dev"));
 server.use(cors());
+
+server.use(express.static("../../client/html-js"));
 /* server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");

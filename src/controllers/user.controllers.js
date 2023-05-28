@@ -73,13 +73,11 @@ async function verifyUser(req, res) {
     });
     if (!user) throw new Error("Usuario no encontrado!");
     let marcaTiempoLogin = Date.now();
-    res
-      .status(200)
-      .json({
-        user: user,
-        msg: "Usuario encontrado!",
-        marcaTiempoLogin: marcaTiempoLogin,
-      });
+    res.status(200).json({
+      user: user,
+      msg: "Usuario encontrado!",
+      marcaTiempoLogin: marcaTiempoLogin,
+    });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
