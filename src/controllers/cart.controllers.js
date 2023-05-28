@@ -46,12 +46,12 @@ async function addProductToCart(req, res) {
     if (cart === null) throw new Error("Carrito no encontrado!");
     const updatedCart = await Cart.update(
       {
-        productsId: [...cart.productsId, productId] // Agrega el nuevo productId al array
+        productsId: [...cart.productsId, productId], // Agrega el nuevo productId al array
       },
       {
         where: {
-          userId: userId
-        }
+          userId: userId,
+        },
       }
     );
     res.status(200).json(updatedCart);

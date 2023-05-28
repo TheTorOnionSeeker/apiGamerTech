@@ -8,9 +8,9 @@ module.exports = (sequelize) => {
       autoIncrement: true,
     },
     productsId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: true,
-        defaultValue: []
-    }
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      allowNull: true,
+      defaultValue: [],
+    },
   });
 };
