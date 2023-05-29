@@ -69,7 +69,8 @@ async function loginWithGoogle(req, res) {
           isActive: true,
       })
       if(!new_user) throw new Error('No se pudo crear el usuario');
-      res.status(201).json({user:new_user, msg:'User created'});
+      let marcaTiempoLogin = Date.now();
+      res.status(201).json({user:new_user, msg:'User created', marcaTiempoLogin: marcaTiempoLogin});
   } catch (error) {
     res.status(404).json({error : error.message});
   }
