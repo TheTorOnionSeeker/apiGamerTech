@@ -17,8 +17,7 @@ module.exports = (sequelize) => {
       unique: true,
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING
     },
     isActive: {
       type: DataTypes.BOOLEAN,
