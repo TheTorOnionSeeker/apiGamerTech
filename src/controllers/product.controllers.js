@@ -81,7 +81,7 @@ async function getProductByName(req, res) {
   const { name } = req.query;
   try {
     const product = await Product.findAll({
-      where: { name: name },
+      where: { name: { [Op.like]: `%${name}%` } },
       attributes: [
         "id",
         "name",
