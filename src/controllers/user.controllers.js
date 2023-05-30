@@ -60,6 +60,22 @@ async function createUser(req, res) {
   }
 }
 
+async function loginWithGoogle(req, res) {
+  const {data} = req.body;
+  try {
+    const new_user = await User.create({
+          name : data.givenName + ' ' + data.familyName,
+          email : data.email,
+          isActive: true,
+      })
+      if(!new_user) throw new Error('No se pudo crear el usuario');
+      let marcaTiempoLogin = Date.now();
+      res.status(201).json({user:new_user, msg:'User created', marcaTiempoLogin: marcaTiempoLogin});
+  } catch (error) {
+    res.status(404).json({error : error.message});
+  }
+}
+
 async function verifyUser(req, res) {
   const { email, password } = req.body;
 
@@ -108,4 +124,5 @@ module.exports = {
   createUser,
   verifyUser,
   modifyUser,
+  loginWithGoogle
 };
