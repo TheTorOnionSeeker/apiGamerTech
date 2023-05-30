@@ -60,6 +60,8 @@ async function addProductToCart(req, res) {
   }
 }
 
+async function resetCart(){}
+
 module.exports = {
   createCart,
   getCartByUserId,
