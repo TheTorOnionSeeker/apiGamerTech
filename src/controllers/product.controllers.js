@@ -19,21 +19,6 @@ function ordenarObjetos(propiedad, sentido, funcionOrdenamiento) {
   };
 }
 
-/* async function getProductByName(req, res) {
-  const { name_product } = req.query;
-  try {
-    if (typeof name_product != 'string') throw new Error("Ingresar un dato tipo string");
-    const product = await Product.findAll({
-      attributes: ["id", "name", "description", "price", "imageUrl"],
-      where: { name: { [Op.iLike] : `%${name_product}%`}},
-    });
-    if (product === null) throw new Error("Product not found!");
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-} */
-
 async function getAllProducts(req, res) {
   try {
     const DBproducts = await Product.findAll({
@@ -81,18 +66,7 @@ async function getProductByName(req, res) {
   const { name } = req.query;
   try {
     const product = await Product.findAll({
-      where: { name: { [Op.like]: `%${name}%` } },
-      attributes: [
-        "id",
-        "name",
-        "description",
-        "price",
-        "imageUrl",
-        "isActive",
-        "stock",
-      ],
-      //attributes: ["id", "name", "description", "price", "imageUrl", "isActive", "stock"]
-      //where: { name: { [Op.iLike] : `%${name}%`}},
+      where: { name: { [Op.like]: `%${name}%` } }
     });
     if (product === null) throw new Error("Producto no encontrado!");
     res.status(200).json(product);
