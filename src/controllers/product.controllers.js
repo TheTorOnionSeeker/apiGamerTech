@@ -28,7 +28,6 @@ async function getAllProducts(req, res) {
         "description",
         "price",
         "imageUrl",
-        "isActive",
         "stock",
       ],
     });
