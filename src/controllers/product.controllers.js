@@ -67,7 +67,7 @@ async function getProductByName(req, res) {
   const { name } = req.query;
   try {
     const product = await Product.findAll({
-      where: { name: { [Op.iLike]: `%${name}%` } }
+      where: { name: { [Op.iLike]: `%${name}%` } },
     });
     if (product === null) throw new Error("Producto no encontrado!");
     res.status(200).json(product);
@@ -97,17 +97,29 @@ async function createProduct(req, res) {
 async function modifyProduct(req, res) {
   const { id, name, description, price, imageUrl, isActive, stock } = req.body;
   try {
-    const product = await Product.update(
-      {
-        name: name,
-        description: description,
-        price: price,
-        imageUrl: imageUrl,
-        isActive: isActive,
-        stock: stock,
-      },
-      { where: { id: id } }
-    );
+    const updatedFields = {};
+
+    if (name) {
+      updatedFields.name = name;
+    }
+    if (description) {
+      updatedFields.description = description;
+    }
+    if (price) {
+      updatedFields.price = price;
+    }
+    if (imageUrl) {
+      updatedFields.imageUrl = imageUrl;
+    }
+    if (typeof isActive === "undefined") {
+      updatedFields.isActive = isActive;
+    }
+    if (stock) {
+      updatedFields.stock = stock;
+    }
+
+    const product = await Product.update(updatedFields, { where: { id: id } });
+    
     res.status(200).json({ product: product, msg: "Producto modificado" });
   } catch (error) {
     res.status(400).json({ error: error.message });
