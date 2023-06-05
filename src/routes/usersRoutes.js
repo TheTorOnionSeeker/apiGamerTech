@@ -7,12 +7,14 @@ const {
   createUser,
   modifyUser,
   verifyUser,
-  loginWithGoogle
+  loginWithGoogle,
+  searchUserByName
 } = require("../controllers/user.controllers.js");
 
 router.get("/", getAllUsers);
 router.get("/:id", getUserById);
 router.get("/:name", getUserByName);
+router.get("/search", searchUserByName);
 router.post("/new", createUser);
 router.post("/modifyuser", modifyUser);
 router.post("/verifyuser", verifyUser);

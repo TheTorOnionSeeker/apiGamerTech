@@ -3,7 +3,7 @@ const { User } = require("../db.js");
 async function getAllUsers(req, res) {
   try {
     const DBusers = await User.findAll({
-      attributes: ["id", "name", "email", "isActive"],
+      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin"],
     });
     if (DBusers === null) throw new Error("Usuarios no encontrados!");
     res.status(200).json(DBusers);
@@ -19,7 +19,7 @@ async function getUserById(req, res) {
       where: {
         id: id,
       },
-      attributes: ["id", "name", "email", "isActive"],
+      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin"],
     });
     if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
@@ -35,10 +35,23 @@ async function getUserByName(req, res) {
       where: {
         name: name,
       },
-      attributes: ["id", "name", "email", "isActive"],
+      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin"],
     });
     if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+async function searchUserByName(req, res) {
+  const { name } = req.query;
+  try {
+    const users = await User.findAll({
+      where: { name: { [Op.iLike]: `%${name}%` } },
+    });
+    if (users === null) throw new Error("Usuario no encontrado!");
+    res.status(200).json(users);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -52,6 +65,7 @@ async function createUser(req, res) {
       email: email,
       password: password,
       isActive: isActive,
+      isAdmin: false,
     });
     if (!new_user) throw new Error("No se pudo crear el usuario!");
     res.status(201).json({ user: new_user, msg: "Usuario creado!" });
@@ -124,5 +138,6 @@ module.exports = {
   createUser,
   verifyUser,
   modifyUser,
-  loginWithGoogle
+  loginWithGoogle,
+  searchUserByName
 };

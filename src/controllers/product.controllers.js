@@ -31,6 +31,7 @@ async function getAllProducts(req, res) {
         "isActive",
         "stock",
       ],
+      where: null,
     });
     res.status(200).json(DBproducts);
   } catch (error) {
@@ -66,7 +67,7 @@ async function getProductByName(req, res) {
   const { name } = req.query;
   try {
     const product = await Product.findAll({
-      where: { name: { [Op.like]: `%${name}%` } }
+      where: { name: { [Op.iLike]: `%${name}%` } },
     });
     if (product === null) throw new Error("Producto no encontrado!");
     res.status(200).json(product);
