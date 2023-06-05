@@ -44,6 +44,19 @@ async function getUserByName(req, res) {
   }
 }
 
+async function searchUserByName(req, res) {
+  const { name } = req.query;
+  try {
+    const users = await User.findAll({
+      where: { name: { [Op.iLike]: `%${name}%` } },
+    });
+    if (users === null) throw new Error("Usuario no encontrado!");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 async function createUser(req, res) {
   const { name, email, password, isActive } = req.body;
   try {
@@ -125,5 +138,6 @@ module.exports = {
   createUser,
   verifyUser,
   modifyUser,
-  loginWithGoogle
+  loginWithGoogle,
+  searchUserByName
 };
