@@ -3,7 +3,7 @@ const { User } = require("../db.js");
 async function getAllUsers(req, res) {
   try {
     const DBusers = await User.findAll({
-      attributes: ["id", "name", "email", "isActive"],
+      attributes: ["id", "name", "email", "isActive", "createdAt"],
     });
     if (DBusers === null) throw new Error("Usuarios no encontrados!");
     res.status(200).json(DBusers);
