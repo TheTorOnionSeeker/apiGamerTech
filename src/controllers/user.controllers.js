@@ -52,6 +52,7 @@ async function createUser(req, res) {
       email: email,
       password: password,
       isActive: isActive,
+      isAdmin: false,
     });
     if (!new_user) throw new Error("No se pudo crear el usuario!");
     res.status(201).json({ user: new_user, msg: "Usuario creado!" });
