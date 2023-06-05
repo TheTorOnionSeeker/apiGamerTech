@@ -17,9 +17,17 @@ module.exports = (sequelize) => {
       unique: true,
     },
     password: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    isAdmin: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
