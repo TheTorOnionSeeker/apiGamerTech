@@ -134,6 +134,32 @@ const sortProducts = async (req, res) => {
   }
 };
 
+async function addReviewScore(req,res) {
+  let { textReview, score, productId } = req.body;
+  try {
+    const product = await Product.findOne({
+      where: {
+        id: productId,
+      },
+    });
+    if (product === null) throw new Error("Producto no encontrado!");
+    const updatedProduct = await Product.update(
+      {
+        reviewsScores: [...product.reviewsScores, score], // Agrega el nuevo score al array de scores
+        reviewsTexts: [...product.reviewsTexts, textReview]
+      },
+      {
+        where: {
+          id: productId,
+        },
+      }
+    );
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   getProductByName,
   getAllProducts,
@@ -141,4 +167,5 @@ module.exports = {
   createProduct,
   modifyProduct,
   sortProducts,
+  addReviewScore
 };

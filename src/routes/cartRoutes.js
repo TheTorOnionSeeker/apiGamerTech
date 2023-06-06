@@ -3,7 +3,7 @@ const router = Router();
 const {
   createCart,
   getCartByUserId,
-  addProductToCart
+  addProductToCart,
 } = require("../controllers/cart.controllers.js");
 
 /* router.get('/deleteCart',deleteCart)

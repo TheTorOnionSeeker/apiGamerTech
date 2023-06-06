@@ -7,6 +7,7 @@ const {
   createProduct,
   modifyProduct,
   sortProducts,
+  addReviewScore
 } = require("../controllers/product.controllers.js");
 
 router.get("/search", getProductByName);
@@ -15,5 +16,6 @@ router.get("/:id", getProductById);
 router.post("/sort", sortProducts);
 router.post("/new", createProduct);
 router.post("/modifyproduct", modifyProduct);
+router.post('/addreviewscore', addReviewScore)
 
 module.exports = router;
