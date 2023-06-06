@@ -38,12 +38,14 @@ async function getCartByUserId(req, res) {
 async function addProductToCart(req, res) {
   let { userId, productId } = req.body;
   try {
-    const cart = await Cart.findOne({
+    let cart = await Cart.findOne({
       where: {
         userId: userId,
       },
     });
-    if (cart === null) throw new Error("Carrito no encontrado!");
+    if (cart === null){
+      cart=Cart.create();
+    }
     const updatedCart = await Cart.update(
       {
         productsId: [...cart.productsId, productId], // Agrega el nuevo productId al array
