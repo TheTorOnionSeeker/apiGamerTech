@@ -58,9 +58,10 @@ async function searchUserByName(req, res) {
 }
 
 async function createUser(req, res) {
-  const { name, email, password, isActive } = req.body;
+  const { uid,name, email, password, isActive } = req.body;
   try {
     const new_user = await User.create({
+      id : uid,
       name: name,
       email: email,
       password: password,
@@ -75,9 +76,10 @@ async function createUser(req, res) {
 }
 
 async function loginWithGoogle(req, res) {
-  const {data} = req.body;
+  const {uid, data} = req.body;
   try {
     const new_user = await User.create({
+          id: uid,
           name : data.givenName + ' ' + data.familyName,
           email : data.email,
           isActive: true,
