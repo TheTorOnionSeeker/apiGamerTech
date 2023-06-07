@@ -1,4 +1,4 @@
-const { Purchase, User } = require("../db.js");
+const { Purchase, User, Cart } = require("../db.js");
 
 async function createPurchase(req, res) {
   const { productId, userId } = req.body;
@@ -27,7 +27,16 @@ async function createPurchase(req, res) {
         },
       }
     );
-    res.status(201).json({ purchase: updatedPurchase, msg: "Compra creada" });
+    const deletedCart = await Cart.destroy({
+      where: {
+        userId: userId
+      }
+    });
+
+    if (deletedCart === 0) {
+      throw new Error("No se encontró un carrito asociado a ese userId!");
+    }
+    res.status(201).json({ purchase: updatedPurchase, msg: "Compra creada y carrito eliminado!" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

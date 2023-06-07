@@ -31,5 +31,13 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
+    uId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      defaultValue: "https://i.imgur.com/2WZtVXx.png", 
+    }
   });
 };

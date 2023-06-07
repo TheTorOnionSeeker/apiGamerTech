@@ -43,9 +43,17 @@ async function addProductToCart(req, res) {
         userId: userId,
       },
     });
-    if (cart === null){
-      cart=Cart.create();
+    if (cart === null) {
+      cart = await Cart.create();
+      //cart.productsId.push(productId);
     }
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (user === null) throw new Error("Usuario no encontrado!");
+    if (user !== null) await cart.setUser(user);
     const updatedCart = await Cart.update(
       {
         productsId: [...cart.productsId, productId], // Agrega el nuevo productId al array
@@ -61,8 +69,6 @@ async function addProductToCart(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
-
-async function resetCart(){}
 
 module.exports = {
   createCart,
