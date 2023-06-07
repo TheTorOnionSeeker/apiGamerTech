@@ -31,5 +31,9 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
+    uId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    }
   });
 };
