@@ -34,6 +34,10 @@ module.exports = (sequelize) => {
     uId: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      defaultValue: "https://i.imgur.com/2WZtVXx.png", 
     }
   });
 };

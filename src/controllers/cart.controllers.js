@@ -54,7 +54,7 @@ async function addProductToCart(req, res) {
     });
     if (user === null) throw new Error("Usuario no encontrado!");
     if (user !== null) await cart.setUser(user);
-    const updatedCart = await cart.update(
+    const updatedCart = await Cart.update(
       {
         productsId: [...cart.productsId, productId], // Agrega el nuevo productId al array
       },
@@ -69,8 +69,6 @@ async function addProductToCart(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
-
-async function resetCart() {}
 
 module.exports = {
   createCart,
