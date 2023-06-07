@@ -12,14 +12,14 @@ async function createPurchase(req, res) {
     const new_purchase = await Purchase.create();
     if (!new_purchase) throw new Error("No se pudo crear la compra");
     if (user !== null) await new_purchase.setUser(user);
-    const purchase = await Purchase.findOne({
+    /* const purchase = await Purchase.findOne({
       where: {
         userId: userId,
       },
-    });
+    }); */
     const updatedPurchase = await Purchase.update(
       {
-        productsId: [...purchase.productsId, productId], // Agrega el nuevo productId al array
+        productsId: [...new_purchase.productsId, productId], // Agrega el nuevo productId al array
       },
       {
         where: {
