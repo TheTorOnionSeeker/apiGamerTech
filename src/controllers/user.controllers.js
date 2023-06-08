@@ -121,7 +121,7 @@ async function verifyUser(req, res) {
 }
 
 async function modifyUser(req, res) {
-  const { id, name, email, password, isActive } = req.body;
+  const { id, name, email, password, isActive, isAdmin } = req.body;
   try {
     const user = await User.update(
       {
@@ -129,6 +129,7 @@ async function modifyUser(req, res) {
         email: email,
         password: password,
         isActive: isActive,
+        isAdmin: isAdmin,
       },
       { where: { id: id } }
     );
