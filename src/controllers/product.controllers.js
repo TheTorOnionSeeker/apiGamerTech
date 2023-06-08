@@ -30,6 +30,8 @@ async function getAllProducts(req, res) {
         "imageUrl",
         "isActive",
         "stock",
+        "reviewsScores",
+        "reviewsTexts"
       ],
       where: null,
     });
@@ -54,6 +56,8 @@ async function getProductById(req, res) {
         "imageUrl",
         "isActive",
         "stock",
+        "reviewsScores",
+        "reviewsTexts"
       ],
     });
     if (product === null) throw new Error("Producto no encontrado!");
