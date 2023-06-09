@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     uId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true
     },
     imageUrl: {

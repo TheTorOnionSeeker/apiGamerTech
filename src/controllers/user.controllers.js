@@ -3,7 +3,16 @@ const { User } = require("../db.js");
 async function getAllUsers(req, res) {
   try {
     const DBusers = await User.findAll({
-      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin", "uId", "imageUrl"],
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "isActive",
+        "createdAt",
+        "isAdmin",
+        "uId",
+        "imageUrl",
+      ],
     });
     if (DBusers === null) throw new Error("Usuarios no encontrados!");
     res.status(200).json(DBusers);
@@ -19,7 +28,16 @@ async function getUserById(req, res) {
       where: {
         id: id,
       },
-      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin", "uId", "imageUrl"],
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "isActive",
+        "createdAt",
+        "isAdmin",
+        "uId",
+        "imageUrl",
+      ],
     });
     if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
@@ -33,7 +51,16 @@ async function getUserByName(req, res) {
   try {
     const user = await User.findOne({
       where: { name: { [Op.iLike]: `%${name}%` } },
-      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin", "uId", "imageUrl"],
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "isActive",
+        "createdAt",
+        "isAdmin",
+        "uId",
+        "imageUrl",
+      ],
     });
     if (user === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(user);
@@ -47,7 +74,16 @@ async function searchUserByName(req, res) {
   try {
     const users = await User.findAll({
       where: { name: { [Op.iLike]: `%${name}%` } },
-      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin", "uId", "imageUrl"],
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "isActive",
+        "createdAt",
+        "isAdmin",
+        "uId",
+        "imageUrl",
+      ],
     });
     if (users === null) throw new Error("Usuario no encontrado!");
     res.status(200).json(users);
@@ -76,18 +112,41 @@ async function createUser(req, res) {
 async function loginWithGoogle(req, res) {
   const { uid, data } = req.body;
   try {
+    let marcaTiempoLogin = Date.now();
+    const user = await User.findOne({
+      where: {
+        uid: uid,
+      },
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "isActive",
+        "createdAt",
+        "isAdmin",
+        "uId",
+        "imageUrl",
+      ],
+    });
+    if (user) {
+      res.status(200).json({
+        user: user,
+        msg: "Usuario encontrado!",
+        marcaTiempoLogin: marcaTiempoLogin,
+      });
+    }
     const new_user = await User.create({
       uid: uid,
-      name: data.givenName + " " + data.familyName,
+      name: data.given_name + " " + data.family_name,
       email: data.email,
+      imageUrl: data.picture,
       isActive: true,
       isAdmin: false,
     });
     if (!new_user) throw new Error("No se pudo crear el usuario");
-    let marcaTiempoLogin = Date.now();
     res.status(201).json({
       user: new_user,
-      msg: "User created",
+      msg: "Usuario creado!",
       marcaTiempoLogin: marcaTiempoLogin,
     });
   } catch (error) {
@@ -104,7 +163,16 @@ async function verifyUser(req, res) {
         email: email,
         password: password,
       },
-      attributes: ["id", "name", "email", "isActive", "createdAt", "isAdmin", "uId", "imageUrl"],
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "isActive",
+        "createdAt",
+        "isAdmin",
+        "uId",
+        "imageUrl",
+      ],
     });
     if (!user) throw new Error("Usuario no encontrado!");
     let marcaTiempoLogin = Date.now();
@@ -128,7 +196,7 @@ async function modifyUser(req, res) {
         password: password,
         isActive: isActive,
         isAdmin: isAdmin,
-        imageUrl: imageUrl
+        imageUrl: imageUrl,
       },
       { where: { id: id } }
     );
