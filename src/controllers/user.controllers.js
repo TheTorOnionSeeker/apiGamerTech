@@ -137,7 +137,7 @@ async function loginWithGoogle(req, res) {
     }
     const new_user = await User.create({
       uid: uid,
-      name: data.given_name + " " + data.family_name,
+      name: data.name,
       email: data.email,
       imageUrl: data.picture,
       isActive: true,
