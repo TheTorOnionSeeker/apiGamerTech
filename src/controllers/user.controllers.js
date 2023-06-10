@@ -115,7 +115,7 @@ async function loginWithGoogle(req, res) {
     let marcaTiempoLogin = Date.now();
     const user = await User.findOne({
       where: {
-        uid: uid,
+        uId: uid,
       },
       attributes: [
         "id",
