@@ -136,10 +136,10 @@ async function loginWithGoogle(req, res) {
       });
     }
     const new_user = await User.create({
-      uid: uid,
+      uId: uid,
       name: data.name,
       email: data.email,
-      //imageUrl: data.picture,
+      imageUrl: data.picture,
       isActive: true,
       isAdmin: false,
     });
