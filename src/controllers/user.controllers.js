@@ -139,7 +139,7 @@ async function loginWithGoogle(req, res) {
       uid: uid,
       name: data.name,
       email: data.email,
-      imageUrl: data.picture,
+      //imageUrl: data.picture,
       isActive: true,
       isAdmin: false,
     });
