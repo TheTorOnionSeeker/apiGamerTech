@@ -10,6 +10,6 @@ const {
 router.post("/new", createCart);
 router.post("/addproducttocart", addProductToCart);
 router.get("/:id", getCartByUserId);
-router.delete('/cart/:userId/products/:itemId', deleteItem)
+router.delete('/:userId/products/:itemId', deleteItem)
 
 module.exports = router;
