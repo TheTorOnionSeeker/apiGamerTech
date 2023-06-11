@@ -88,7 +88,7 @@ async function deleteItem(req, res) {
     );
 
     // Paso 4: Actualizar el campo productsId del carrito
-    cart.productsId = updatedProductsId;
+    cart.productsId.push(updatedProductsId);
 
     // Paso 5: Guardar los cambios en la base de datos
     await cart.save();
