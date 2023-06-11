@@ -75,9 +75,9 @@ async function deleteItem(req, res) {
 
   try {
     // Paso 1: Buscar el carrito correspondiente al userId
-    const cart = await Cart.findOne({ where: { userId:userId } });
+    const cart = await Cart.findOne({ where: { userId: userId } });
 
-    if (!cart) throw new Error("Carrito no encontrado!")
+    if (!cart) throw new Error("Carrito no encontrado!");
 
     // Paso 2: Obtener el array productsId del carrito
     const productsId = cart.productsId;
@@ -87,8 +87,11 @@ async function deleteItem(req, res) {
       (product) => product.id !== itemId
     );
 
-    // Paso 4: Actualizar el carrito en la base de datos
-    await cart.update({ productsId: updatedProductsId });
+    // Paso 4: Actualizar el campo productsId del carrito
+    cart.productsId = updatedProductsId;
+
+    // Paso 5: Guardar los cambios en la base de datos
+    await cart.save();
 
     return res.status(200).json({ message: "Producto eliminado del carrito" });
   } catch (error) {
