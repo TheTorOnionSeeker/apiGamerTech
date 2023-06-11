@@ -4,10 +4,12 @@ const {
   createCart,
   getCartByUserId,
   addProductToCart,
+  deleteItem
 } = require("../controllers/cart.controllers.js");
 
 router.post("/new", createCart);
 router.post("/addproducttocart", addProductToCart);
 router.get("/:id", getCartByUserId);
+router.delete('/cart/:userId/products/:itemId', deleteItem)
 
 module.exports = router;
