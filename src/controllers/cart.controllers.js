@@ -75,7 +75,7 @@ async function deleteItem(req, res) {
 
   try {
     // Paso 1: Buscar el carrito correspondiente al userId
-    const cart = await Cart.findOne({ where: { userId } });
+    const cart = await Cart.findOne({ where: { userId:userId } });
 
     if (!cart) throw new Error("Carrito no encontrado!")
 
