@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize");
 const { Cart, User } = require("../db.js");
 
 async function createCart(req, res) {
@@ -74,19 +75,20 @@ async function deleteItem(req, res) {
   const { userId, itemId } = req.params;
 
   try {
-    const cart = await Cart.findOne({ where: { userId: userId } });
-
-    if (!cart) throw new Error("Carrito no encontrado!");
-
-    //const productsId = cart.productsId;
-
-    //Eliminar el objeto con el id igual a itemId del array
-    cart.productsId = cart.productsId.filter(
-      (product) => product.id !== itemId
+    const resultado= await Cart.update(
+      {
+        productsId: Sequelize.literal(`array_remove(productsId, '${itemId}')`),
+      },
+      {
+        where: {
+          userId: userId,
+        },
+      }
     );
 
-    //Guardar los cambios en la base de datos
-    await cart.save();
+    if (resultado[0] === 0) {
+      return res.status(404).json({ message: 'Registro no encontrado' });
+    }
 
     return res.status(200).json({ message: "Producto eliminado del carrito" });
   } catch (error) {
