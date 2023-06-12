@@ -11,9 +11,9 @@ async function createPreference(req, res) {
       },
     ],
     back_urls: {
-      success: "https://www.your-gammer-tech.vercel.app/payment/success",
-      failure: "https://www.your-gammer-tech.vercel.app/payment/failure",
-      pending: "https://www.your-gammer-tech.vercel.app/payment/pending",
+      success: "https://your-gammer-tech.vercel.app/payment/success",
+      failure: "https://your-gammer-tech.vercel.app/payment/failure",
+      pending: "https://your-gammer-tech.vercel.app/payment/pending",
     },
     auto_return: "approved",
   };
