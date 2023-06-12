@@ -33,12 +33,12 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     reviewsScores: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      type: DataTypes.ARRAY(DataTypes.JSON),
       allowNull: true,
       defaultValue: [],
     },
     reviewsTexts: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.JSON),
       allowNull: true,
       defaultValue: [],
     },

@@ -70,8 +70,39 @@ async function addProductToCart(req, res) {
   }
 }
 
+async function deleteItem(req, res) {
+  const { userId, itemId } = req.params;
+
+  try {
+    // Paso 1: Buscar el carrito correspondiente al userId
+    const cart = await Cart.findOne({ where: { userId: userId } });
+
+    if (!cart) throw new Error("Carrito no encontrado!");
+
+    // Paso 2: Obtener el array productsId del carrito
+    const productsId = cart.productsId;
+
+    // Paso 3: Eliminar el objeto con el id igual a itemId del array
+    const updatedProductsId = productsId.filter(
+      (product) => product.id !== itemId
+    );
+
+    // Paso 4: Actualizar el campo productsId del carrito
+    cart.productsId.push(updatedProductsId);
+
+    // Paso 5: Guardar los cambios en la base de datos
+    await cart.save();
+
+    return res.status(200).json({ message: "Producto eliminado del carrito" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
 module.exports = {
   createCart,
   getCartByUserId,
   addProductToCart,
+  deleteItem,
 };
