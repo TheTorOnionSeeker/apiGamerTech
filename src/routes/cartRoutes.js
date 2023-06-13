@@ -10,6 +10,6 @@ const {
 router.post("/new", createCart);
 router.post("/addproducttocart", addProductToCart);
 router.get("/:id", getCartByUserId);
-router.put('/:userId/products/:itemId', deleteItem)
+router.post('/deleteItem', deleteItem)
 
 module.exports = router;

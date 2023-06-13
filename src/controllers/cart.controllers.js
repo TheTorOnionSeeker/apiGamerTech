@@ -72,16 +72,17 @@ async function addProductToCart(req, res) {
 }
 
 async function deleteItem(req, res) {
-  const { userId, itemId } = req.params;
-
+  let { userId, productId } = req.body;
   try {
-    const resultado= await Cart.update(
+    let cart = await Cart.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+    if (cart === null) throw new Error("Carrito no encontrado!");
+    const updatedCart = await Cart.update(
       {
-        productsid: Sequelize.literal(`array_remove(productsid, (
-          SELECT x FROM (
-            SELECT elem FROM unnest(productsid) elem WHERE elem->>'id' = '${itemId}'
-          ) s
-        ))`),
+        productsId: [...cart.productsId, productId], // Agrega el nuevo productId al array
       },
       {
         where: {
@@ -89,15 +90,9 @@ async function deleteItem(req, res) {
         },
       }
     );
-
-    if (resultado[0] === 0) {
-      return res.status(404).json({ message: 'Registro no encontrado' });
-    }
-
-    return res.status(200).json({ message: "Producto eliminado del carrito" });
+    res.status(200).json(updatedCart);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Error en el servidor" });
+    res.status(400).json({ error: error.message });
   }
 }
 
