@@ -7,7 +7,8 @@ const {
   createProduct,
   modifyProduct,
   sortProducts,
-  addReviewScore
+  addReviewScore,
+  deleteReviewScore
 } = require("../controllers/product.controllers.js");
 
 router.get("/search", getProductByName);
@@ -17,5 +18,6 @@ router.post("/sort", sortProducts);
 router.post("/new", createProduct);
 router.post("/modifyproduct", modifyProduct);
 router.post('/addreviewscore', addReviewScore)
+router.post('/deletereviewscore', deleteReviewScore)
 
 module.exports = router;

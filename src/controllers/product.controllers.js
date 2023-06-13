@@ -31,7 +31,7 @@ async function getAllProducts(req, res) {
         "isActive",
         "stock",
         "reviewsScores",
-        "reviewsTexts"
+        "reviewsTexts",
       ],
       where: null,
     });
@@ -57,7 +57,7 @@ async function getProductById(req, res) {
         "isActive",
         "stock",
         "reviewsScores",
-        "reviewsTexts"
+        "reviewsTexts",
       ],
     });
     if (product === null) throw new Error("Producto no encontrado!");
@@ -138,7 +138,7 @@ const sortProducts = async (req, res) => {
   }
 };
 
-async function addReviewScore(req,res) {
+async function addReviewScore(req, res) {
   let { textReview, score, productId } = req.body;
   try {
     const product = await Product.findOne({
@@ -150,7 +150,7 @@ async function addReviewScore(req,res) {
     const updatedProduct = await Product.update(
       {
         reviewsScores: [...product.reviewsScores, score], // Agrega el nuevo score al array de scores
-        reviewsTexts: [...product.reviewsTexts, textReview]
+        reviewsTexts: [...product.reviewsTexts, textReview],
       },
       {
         where: {
@@ -164,6 +164,45 @@ async function addReviewScore(req,res) {
   }
 }
 
+async function deleteReviewScore(req, res) {
+  let { reviewId, productId } = req.body;
+
+  try {
+    const product = await Product.findOne({
+      where: {
+        id: productId,
+      },
+    });
+
+    if (product === null) {
+      throw new Error("Producto no encontrado!");
+    }
+
+    const updatedScores = product.reviewsScores.filter(
+      (score) => score.userId !== reviewId
+    );
+    const updatedTexts = product.reviewsTexts.filter(
+      (text) => text.userId !== reviewId
+    );
+
+    const updatedProduct = await Product.update(
+      {
+        reviewsScores: updatedScores,
+        reviewsTexts: updatedTexts,
+      },
+      {
+        where: {
+          id: productId,
+        },
+      }
+    );
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   getProductByName,
   getAllProducts,
@@ -171,5 +210,6 @@ module.exports = {
   createProduct,
   modifyProduct,
   sortProducts,
-  addReviewScore
+  addReviewScore,
+  deleteReviewScore,
 };
