@@ -77,9 +77,9 @@ async function deleteItem(req, res) {
   try {
     const resultado= await Cart.update(
       {
-        productsId: Sequelize.literal(`array_remove(productsId, (
+        productsid: Sequelize.literal(`array_remove(productsid, (
           SELECT x FROM (
-            SELECT elem FROM unnest(productsId) elem WHERE elem->>'id' = '${itemId}'
+            SELECT elem FROM unnest(productsid) elem WHERE elem->>'id' = '${itemId}'
           ) s
         ))`),
       },
