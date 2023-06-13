@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize");
 const { Cart, User } = require("../db.js");
 
 async function createCart(req, res) {
@@ -71,32 +72,27 @@ async function addProductToCart(req, res) {
 }
 
 async function deleteItem(req, res) {
-  const { userId, itemId } = req.params;
-
+  let { userId, productId } = req.body;
   try {
-    // Paso 1: Buscar el carrito correspondiente al userId
-    const cart = await Cart.findOne({ where: { userId: userId } });
-
-    if (!cart) throw new Error("Carrito no encontrado!");
-
-    // Paso 2: Obtener el array productsId del carrito
-    const productsId = cart.productsId;
-
-    // Paso 3: Eliminar el objeto con el id igual a itemId del array
-    const updatedProductsId = productsId.filter(
-      (product) => product.id !== itemId
+    let cart = await Cart.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+    if (cart === null) throw new Error("Carrito no encontrado!");
+    const updatedCart = await Cart.update(
+      {
+        productsId: productId,
+      },
+      {
+        where: {
+          userId: userId,
+        },
+      }
     );
-
-    // Paso 4: Actualizar el campo productsId del carrito
-    cart.productsId.push(updatedProductsId);
-
-    // Paso 5: Guardar los cambios en la base de datos
-    await cart.save();
-
-    return res.status(200).json({ message: "Producto eliminado del carrito" });
+    res.status(200).json(updatedCart);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Error en el servidor" });
+    res.status(400).json({ error: error.message });
   }
 }
 
