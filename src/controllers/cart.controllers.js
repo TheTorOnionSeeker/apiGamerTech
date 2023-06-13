@@ -82,7 +82,7 @@ async function deleteItem(req, res) {
     if (cart === null) throw new Error("Carrito no encontrado!");
     const updatedCart = await Cart.update(
       {
-        productsId: [...cart.productsId, productId], // Agrega el nuevo productId al array
+        productsId: productId,
       },
       {
         where: {
