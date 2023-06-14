@@ -45,7 +45,7 @@ async function createPurchase(req, res) {
 async function getAllPurchases(req, res) {
   try {
     const DBPurchases = await Purchase.findAll({
-      attributes: ["productsId", "userId"],
+      attributes: ["id", "productsId", "userId"],
     });
     res.status(200).json(DBPurchases);
   } catch (error) {
