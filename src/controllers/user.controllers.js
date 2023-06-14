@@ -95,6 +95,7 @@ async function searchUserByName(req, res) {
 async function createUser(req, res) {
   const { name, email, password, isActive } = req.body;
   try {
+    let marcaTiempoLogin = Date.now();
     const new_user = await User.create({
       name: name,
       email: email,
@@ -103,7 +104,13 @@ async function createUser(req, res) {
       isAdmin: false,
     });
     if (!new_user) throw new Error("No se pudo crear el usuario!");
-    res.status(201).json({ user: new_user, msg: "Usuario creado!" });
+    res
+      .status(201)
+      .json({
+        user: new_user,
+        msg: "Usuario creado!",
+        marcaTiempoLogin: marcaTiempoLogin,
+      });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

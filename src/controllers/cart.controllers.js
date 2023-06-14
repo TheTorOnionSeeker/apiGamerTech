@@ -96,9 +96,44 @@ async function deleteItem(req, res) {
   }
 }
 
+async function addCartFromLocalStorage() {
+  let { userId, productId } = req.body;
+  try {
+    let cart = await Cart.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+    if (cart === null) {
+      cart = await Cart.create();
+    }
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (user === null) throw new Error("Usuario no encontrado!");
+    if (user !== null) await cart.setUser(user);
+    const updatedCart = await Cart.update(
+      {
+        productsId: productId,
+      },
+      {
+        where: {
+          userId: userId,
+        },
+      }
+    );
+    res.status(200).json(updatedCart);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createCart,
   getCartByUserId,
   addProductToCart,
   deleteItem,
+  addCartFromLocalStorage,
 };
