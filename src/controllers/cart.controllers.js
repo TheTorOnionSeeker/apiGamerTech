@@ -108,7 +108,7 @@ async function addCartFromLocalStorage() {
       },
     });
     if (user === null) throw new Error("Usuario no encontrado!");
-    if (user !== null) await cart.setUser(user);
+    if (user !== null) await dbCart.setUser(user);
     dbCart.productsId = cart.productId;
     await dbCart.save();
     res.status(200).json(updatedCart);
