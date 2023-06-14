@@ -115,7 +115,7 @@ async function createProduct(req, res) {
 }
 
 async function modifyProduct(req, res) {
-  const { id, name, description, price, imageUrl, isActive, stock } = req.body;
+  const { id, name, description, price, imageUrl, isActive, stock, category } = req.body;
   try {
     const product = await Product.update(
       {
@@ -125,6 +125,7 @@ async function modifyProduct(req, res) {
         imageUrl: imageUrl,
         isActive: isActive,
         stock: stock,
+        category: category,
       },
       { where: { id: id } }
     );
