@@ -16,7 +16,7 @@ const {
 router.get("/search", getProductByName);
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);
-router.get('/getAllCategories', getAllCategories)
+router.get('/getallcategories', getAllCategories)
 router.post("/sort", sortProducts);
 router.post("/new", createProduct);
 router.post("/modifyproduct", modifyProduct);
