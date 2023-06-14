@@ -41,6 +41,19 @@ async function getAllProducts(req, res) {
   }
 }
 
+async function deleteProducts(req, res) {
+  try {
+    await Product.destroy({
+      where: {},
+      truncate: true
+    });
+
+    res.status(200).json("Todos los productos han sido eliminados");
+  } catch (error) {
+    res.status(500).json("Error al eliminar los productos");
+  }
+};
+
 async function getProductById(req, res) {
   const { id } = req.params;
   try {
@@ -212,4 +225,5 @@ module.exports = {
   sortProducts,
   addReviewScore,
   deleteReviewScore,
+  deleteProducts
 };
