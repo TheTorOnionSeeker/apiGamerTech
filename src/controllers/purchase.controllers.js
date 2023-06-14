@@ -60,7 +60,7 @@ async function getPurchaseByUserId(req, res) {
       where: {
         userId: userid,
       },
-      attributes: ["productsId", "userId"],
+      attributes: ["id","productsId", "userId"],
     });
     if (purchases === null)
       throw new Error("Compras de usuario no encontradas!");
