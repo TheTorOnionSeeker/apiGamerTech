@@ -10,11 +10,13 @@ const {
   addReviewScore,
   deleteReviewScore,
   deleteProducts,
+  getAllCategories,
 } = require("../controllers/product.controllers.js");
 
 router.get("/search", getProductByName);
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);
+router.get('/getAllCategories', getAllCategories)
 router.post("/sort", sortProducts);
 router.post("/new", createProduct);
 router.post("/modifyproduct", modifyProduct);

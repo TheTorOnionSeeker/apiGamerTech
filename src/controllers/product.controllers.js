@@ -46,14 +46,14 @@ async function deleteProducts(req, res) {
   try {
     await Product.destroy({
       where: {},
-      truncate: true
+      truncate: true,
     });
 
     res.status(200).json("Todos los productos han sido eliminados");
   } catch (error) {
     res.status(500).json("Error al eliminar los productos");
   }
-};
+}
 
 async function getProductById(req, res) {
   const { id } = req.params;
@@ -95,7 +95,8 @@ async function getProductByName(req, res) {
 }
 
 async function createProduct(req, res) {
-  const { name, description, price, imageUrl, isActive, stock, category } = req.body;
+  const { name, description, price, imageUrl, isActive, stock, category } =
+    req.body;
   try {
     const new_product = await Product.create({
       name: name,
@@ -218,6 +219,20 @@ async function deleteReviewScore(req, res) {
   }
 }
 
+async function getAllCategories(req, res) {
+  try {
+    const DBproducts = await Product.findAll({
+      attributes: [
+        "category"
+      ],
+      where: null,
+    });
+    res.status(200).json(DBproducts);
+  } catch (error) {
+    res.status(404).json("Categorías no encontradas!");
+  }
+}
+
 module.exports = {
   getProductByName,
   getAllProducts,
@@ -227,5 +242,6 @@ module.exports = {
   sortProducts,
   addReviewScore,
   deleteReviewScore,
-  deleteProducts
+  deleteProducts,
+  getAllCategories,
 };
