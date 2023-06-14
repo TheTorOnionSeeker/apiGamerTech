@@ -94,7 +94,7 @@ async function getProductByName(req, res) {
 }
 
 async function createProduct(req, res) {
-  const { name, description, price, imageUrl, isActive, stock } = req.body;
+  const { name, description, price, imageUrl, isActive, stock, category } = req.body;
   try {
     const new_product = await Product.create({
       name: name,
@@ -103,6 +103,7 @@ async function createProduct(req, res) {
       imageUrl: imageUrl,
       isActive: isActive,
       stock: stock,
+      category: category,
     });
     if (!new_product) throw new Error("No se pudo crear el producto!");
     res.status(201).json({ product: new_product, msg: "Producto creado!" });
