@@ -30,6 +30,7 @@ async function getAllProducts(req, res) {
         "imageUrl",
         "isActive",
         "stock",
+        "category",
         "reviewsScores",
         "reviewsTexts",
       ],
