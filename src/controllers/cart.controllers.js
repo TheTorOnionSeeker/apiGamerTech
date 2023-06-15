@@ -96,7 +96,7 @@ async function deleteItem(req, res) {
   }
 }
 
-async function addCartFromLocalStorage() {
+async function addCartFromLocalStorage(req,res) {
   let { cart } = req.body;
   try {
     const [dbCart] = await Cart.findOrCreate({
