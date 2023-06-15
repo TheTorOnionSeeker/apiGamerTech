@@ -30,14 +30,28 @@ async function getAllProducts(req, res) {
         "imageUrl",
         "isActive",
         "stock",
+        "category",
         "reviewsScores",
-        "reviewsTexts"
+        "reviewsTexts",
       ],
       where: null,
     });
     res.status(200).json(DBproducts);
   } catch (error) {
     res.status(404).json("Productos no encontrados!");
+  }
+}
+
+async function deleteProducts(req, res) {
+  try {
+    await Product.destroy({
+      where: {},
+      truncate: true,
+    });
+
+    res.status(200).json("Todos los productos han sido eliminados");
+  } catch (error) {
+    res.status(500).json("Error al eliminar los productos");
   }
 }
 
@@ -57,7 +71,7 @@ async function getProductById(req, res) {
         "isActive",
         "stock",
         "reviewsScores",
-        "reviewsTexts"
+        "reviewsTexts",
       ],
     });
     if (product === null) throw new Error("Producto no encontrado!");
@@ -81,7 +95,8 @@ async function getProductByName(req, res) {
 }
 
 async function createProduct(req, res) {
-  const { name, description, price, imageUrl, isActive, stock } = req.body;
+  const { name, description, price, imageUrl, isActive, stock, category } =
+    req.body;
   try {
     const new_product = await Product.create({
       name: name,
@@ -90,6 +105,7 @@ async function createProduct(req, res) {
       imageUrl: imageUrl,
       isActive: isActive,
       stock: stock,
+      category: category,
     });
     if (!new_product) throw new Error("No se pudo crear el producto!");
     res.status(201).json({ product: new_product, msg: "Producto creado!" });
@@ -99,7 +115,7 @@ async function createProduct(req, res) {
 }
 
 async function modifyProduct(req, res) {
-  const { id, name, description, price, imageUrl, isActive, stock } = req.body;
+  const { id, name, description, price, imageUrl, isActive, stock, category } = req.body;
   try {
     const product = await Product.update(
       {
@@ -109,6 +125,7 @@ async function modifyProduct(req, res) {
         imageUrl: imageUrl,
         isActive: isActive,
         stock: stock,
+        category: category,
       },
       { where: { id: id } }
     );
@@ -138,7 +155,7 @@ const sortProducts = async (req, res) => {
   }
 };
 
-async function addReviewScore(req,res) {
+async function addReviewScore(req, res) {
   let { textReview, score, productId } = req.body;
   try {
     const product = await Product.findOne({
@@ -150,7 +167,7 @@ async function addReviewScore(req,res) {
     const updatedProduct = await Product.update(
       {
         reviewsScores: [...product.reviewsScores, score], // Agrega el nuevo score al array de scores
-        reviewsTexts: [...product.reviewsTexts, textReview]
+        reviewsTexts: [...product.reviewsTexts, textReview],
       },
       {
         where: {
@@ -164,6 +181,59 @@ async function addReviewScore(req,res) {
   }
 }
 
+async function deleteReviewScore(req, res) {
+  let { reviewId, productId } = req.body;
+
+  try {
+    const product = await Product.findOne({
+      where: {
+        id: productId,
+      },
+    });
+
+    if (product === null) {
+      throw new Error("Producto no encontrado!");
+    }
+
+    const updatedScores = product.reviewsScores.filter(
+      (score) => score.userId !== reviewId
+    );
+    const updatedTexts = product.reviewsTexts.filter(
+      (text) => text.userId !== reviewId
+    );
+
+    const updatedProduct = await Product.update(
+      {
+        reviewsScores: updatedScores,
+        reviewsTexts: updatedTexts,
+      },
+      {
+        where: {
+          id: productId,
+        },
+      }
+    );
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+async function getAllCategories(req, res) {
+  try {
+    const DBproducts = await Product.findAll({
+      attributes: [
+        "category"
+      ],
+      where: null,
+    });
+    res.status(200).json(DBproducts);
+  } catch (error) {
+    res.status(404).json("Categorías no encontradas!");
+  }
+}
+
 module.exports = {
   getProductByName,
   getAllProducts,
@@ -171,5 +241,8 @@ module.exports = {
   createProduct,
   modifyProduct,
   sortProducts,
-  addReviewScore
+  addReviewScore,
+  deleteReviewScore,
+  deleteProducts,
+  getAllCategories,
 };
