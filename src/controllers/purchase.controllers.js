@@ -45,7 +45,7 @@ async function createPurchase(req, res) {
 async function getAllPurchases(req, res) {
   try {
     const DBPurchases = await Purchase.findAll({
-      attributes: ["productsId", "userId"],
+      attributes: ["id", "productsId", "userId"],
     });
     res.status(200).json(DBPurchases);
   } catch (error) {
@@ -60,7 +60,7 @@ async function getPurchaseByUserId(req, res) {
       where: {
         userId: userid,
       },
-      attributes: ["productsId", "userId"],
+      attributes: ["id","productsId", "userId"],
     });
     if (purchases === null)
       throw new Error("Compras de usuario no encontradas!");
