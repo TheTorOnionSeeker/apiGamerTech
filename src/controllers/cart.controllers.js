@@ -96,8 +96,7 @@ async function deleteItem(req, res) {
   }
 }
 
-async function addCartFromLocalStorage(req,res) {
-
+async function addCartFromLocalStorage(req, res) {
   let { userId, productId } = req.body;
   try {
     let cart = await Cart.findOne({
@@ -118,7 +117,7 @@ async function addCartFromLocalStorage(req,res) {
     if (user !== null) await cart.setUser(user);
     const updatedCart = await Cart.update(
       {
-        productsId: productId
+        productsId: productId,
       },
       {
         where: {
