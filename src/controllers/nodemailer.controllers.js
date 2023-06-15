@@ -14,7 +14,7 @@ function sendRegisterMail(req, res) {
 
   const mailOptions = {
     from: "GamerTech",
-    to: email,
+    to: `${email}`,
     subject: "enviado desde GamerTech Inc.",
     text: "¡Registro exitoso! ¡Bienvenido a GamerTech!",
   };
@@ -43,7 +43,7 @@ function sendPaymentSuccessMail(req, res) {
 
   const mailOptions = {
     from: "GamerTech",
-    to: email,
+    to: `${email}`,
     subject: "enviado desde GamerTech Inc.",
     text: "¡Pago exitoso! ¡Gracias por tu compra!",
   };
