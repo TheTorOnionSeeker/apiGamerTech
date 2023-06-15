@@ -29,7 +29,7 @@ function sendRegisterMail(req, res) {
   });
 }
 
-function sendPaymentSuccessMail() {
+function sendPaymentSuccessMail(req, res) {
   let { email } = req.body;
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
