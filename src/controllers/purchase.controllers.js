@@ -17,7 +17,7 @@ async function createPurchase(req, res) {
         userId: userId,
       },
     }); */
-    const updatedPurchase = await new_purchase.update(
+    const updatedPurchase = await Purchase.update(
       {
         productsId: [...new_purchase.productsId, productId], // Agrega el nuevo productId al array
       },
