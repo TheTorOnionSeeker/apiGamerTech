@@ -19,7 +19,7 @@ async function createPurchase(req, res) {
     }); */
     const updatedPurchase = await Purchase.update(
       {
-        productsId: [...new_purchase.productsId, productId], // Agrega el nuevo productId al array
+        productsId: productId // Agrega el nuevo productId al array
       },
       {
         where: {
