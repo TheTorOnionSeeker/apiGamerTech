@@ -19,7 +19,7 @@ async function createPurchase(req, res) {
     }); */
     const updatedPurchase = await Purchase.update(
       {
-        productsId: productId // Agrega el nuevo productId al array
+        productsId: productId, // Agrega el nuevo productId al array
       },
       {
         where: {
@@ -73,8 +73,24 @@ async function getPurchaseByUserId(req, res) {
   }
 }
 
+async function deleteAllPurchases(req, res) {
+  try {
+    const deletedPurchases = await Purchase.destroy({
+      where: {},
+    });
+
+    if (deletedPurchases === 0) {
+      throw new Error("No se pudieron eliminar todas las compras históricas!");
+    }
+    res.status(200).json("Compras históricas eliminadas!");
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createPurchase,
   getAllPurchases,
   getPurchaseByUserId,
+  deleteAllPurchases,
 };
