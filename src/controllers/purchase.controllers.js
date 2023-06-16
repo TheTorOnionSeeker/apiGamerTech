@@ -9,7 +9,7 @@ async function createPurchase(req, res) {
       },
     });
     if (user === null) throw new Error("Usuario no encontrado!");
-    const new_purchase = await Purchase.create();
+    const new_purchase = await Purchase.create({productsId:productId});
     if (!new_purchase) throw new Error("No se pudo crear la compra");
     if (user !== null) await new_purchase.setUser(user);
     /* const purchase = await Purchase.findOne({
@@ -17,7 +17,7 @@ async function createPurchase(req, res) {
         userId: userId,
       },
     }); */
-    const updatedPurchase = await Purchase.update(
+    /* const updatedPurchase = await Purchase.update(
       {
         productsId: productId, // Agrega el nuevo productId al array
       },
@@ -26,7 +26,7 @@ async function createPurchase(req, res) {
           userId: userId,
         },
       }
-    );
+    ); */
     const deletedCart = await Cart.destroy({
       where: {
         userId: userId,
@@ -37,7 +37,7 @@ async function createPurchase(req, res) {
       throw new Error("No se encontró un carrito asociado a ese userId!");
     }
     res.status(201).json({
-      purchase: updatedPurchase,
+      purchase: new_purchase,
       msg: "Compra creada y carrito eliminado!",
     });
   } catch (error) {
