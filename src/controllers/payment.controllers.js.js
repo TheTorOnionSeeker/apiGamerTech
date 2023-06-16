@@ -11,9 +11,12 @@ async function createPreference(req, res) {
       },
     ],
     back_urls: {
-      success: "http://localhost:5173/payment/success",
+      /* success: "http://localhost:5173/payment/success",
       failure: "http://localhost:5173/payment/failure",
-      pending: "http://localhost:5173/payment/pending",
+      pending: "http://localhost:5173/payment/pending", */
+      success: "https://your-gammer-tech.vercel.app/payment/success",
+      failure: "https://your-gammer-tech.vercel.app/payment/failure",
+      pending: "https://your-gammer-tech.vercel.app/payment/pending",
     },
     auto_return: "approved",
   };

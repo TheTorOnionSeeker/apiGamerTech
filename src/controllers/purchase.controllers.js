@@ -17,9 +17,9 @@ async function createPurchase(req, res) {
         userId: userId,
       },
     }); */
-    const updatedPurchase = await new_purchase.update(
+    const updatedPurchase = await Purchase.update(
       {
-        productsId: [...new_purchase.productsId, productId], // Agrega el nuevo productId al array
+        productsId: productId // Agrega el nuevo productId al array
       },
       {
         where: {
@@ -29,14 +29,17 @@ async function createPurchase(req, res) {
     );
     const deletedCart = await Cart.destroy({
       where: {
-        userId: userId
-      }
+        userId: userId,
+      },
     });
 
     if (deletedCart === 0) {
       throw new Error("No se encontró un carrito asociado a ese userId!");
     }
-    res.status(201).json({ purchase: updatedPurchase, msg: "Compra creada y carrito eliminado!" });
+    res.status(201).json({
+      purchase: updatedPurchase,
+      msg: "Compra creada y carrito eliminado!",
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -45,7 +48,7 @@ async function createPurchase(req, res) {
 async function getAllPurchases(req, res) {
   try {
     const DBPurchases = await Purchase.findAll({
-      attributes: ["productsId", "userId"],
+      attributes: ["id", "productsId", "userId"],
     });
     res.status(200).json(DBPurchases);
   } catch (error) {
@@ -60,7 +63,7 @@ async function getPurchaseByUserId(req, res) {
       where: {
         userId: userid,
       },
-      attributes: ["productsId", "userId"],
+      attributes: ["id", "productsId", "userId"],
     });
     if (purchases === null)
       throw new Error("Compras de usuario no encontradas!");
